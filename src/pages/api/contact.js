@@ -1,4 +1,5 @@
 require('dotenv').config()
+import * as fs from 'fs';
 
 const PASSWORD = process.env.password
 
@@ -15,13 +16,18 @@ export default function (req, res) {
     },
     secure: false,
   });
-
+  
+  
   const mailData = {
     from: 'contactguillaumemail@gmail.com', //l'adresse qui expédiera le mail
     to: 'maxnoelsens@gmail.com', // à mon adresse pour le moment puis celle de guillaume
-    subject: `Message From ${req.body.subject}`,
-    text: `${req.body.firstName} ${req.body.lastName}, ${req.body.email} \n\n${req.body.subject} \n\n${req.body.message}\n\n${req.body.files}`,
-    // html: <div>{req.body.files}</div>
+    text: `${req.body.firstName} ${req.body.lastName}, ${req.body.email} \n\n${req.body.subject} \n\n${req.body.message}`,
+    attachments: [{
+      filename: "image.png",
+      content: fs.createReadStream(req.body),
+      path: "",
+      cid: "unique"
+  }]
   }
 
   transporter.sendMail(mailData, function (err, info) {
@@ -31,7 +37,6 @@ export default function (req, res) {
       console.log("info = " + info)
   })
 
-  console.log("req.body = " + req.body)
   res.status(200)
   res.end()
 }

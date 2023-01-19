@@ -13,8 +13,8 @@ export default function Home() {
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
-  // const [body, setMessage] = useState('')
-  const [files, setFiles] = useState(null)
+  const [filename, setFileName] = useState(null)
+  const [file, setFile] = useState(null)
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (e) => {
@@ -44,7 +44,9 @@ export default function Home() {
       return
     }
 
+    
     e.preventDefault()
+    console.log("e.target.files = " + e.target.files)
     console.log('Sending')
     let data = {
       firstName,
@@ -52,27 +54,33 @@ export default function Home() {
       email,
       subject,
       message,
+      filename,
     }
+
+
+    const formData = new FormData();
+
+		formData.append('File', file);
 
     fetch('/api/contact', {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+      body: formData,
+      // headers: {
+      //   'Accept': 'application/json, text/plain, */*',
+      //   'Content-Type': 'application/json'
+      // },
+      // body: JSON.stringify(data) + formData 
     }).then((res) => {
       console.log('Response received')
       if (res.status === 200) {
         console.log('Response succeeded!')
         setSubmitted(true)
-        setFirstName('')
-        setLastName('')
-        setEmail('')
-        setSubject('')
-        setMessage('')
-        setFiles('')
-        // setBody('')
+        // setFirstName('')
+        // setLastName('')
+        // setEmail('')
+        // setSubject('')
+        // setMessage('')
+        // setFiles('')
       }
     })
   }
@@ -113,12 +121,13 @@ export default function Home() {
               <label>Pièces jointes: </label>
               <input type="file" name="file[]" multiple="multiple" onChange={(e) => {
                 console.log(e.target.files[0])
-                setFiles(e.target.files[0])
+                setFileName(e.target.files[0].name)
+                setFile(e.target.files[0])
               }} />
             </formGroup>
 
             < input type='submit' onClick={(e) => { handleSubmit(e) }} />
-            {files == '' ? null : <img src={files} alt="images" width={100 + 'px'} height={100 + 'px'}></img>}
+            {filename == '' ? null : <img src={filename} alt="images" width={100 + 'px'} height={100 + 'px'}></img>}
           </form >
 
         </div>
