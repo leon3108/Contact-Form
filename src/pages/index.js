@@ -44,7 +44,6 @@ export default function Home() {
       return
     }
 
-    
     e.preventDefault()
     console.log("e.target.files = " + e.target.files)
     console.log('Sending')
@@ -56,7 +55,6 @@ export default function Home() {
       message,
       filename,
     }
-
 
     const formData = new FormData();
 
