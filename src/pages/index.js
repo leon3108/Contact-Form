@@ -96,7 +96,7 @@ export default function Home() {
 
         <div className={styles.container}>
 
-          < form className={styles.contactForm} >
+          < form className={styles.contactForm} encType="multipart/form-data">
             < formGroup className={styles.inputGroup} >
               < label htmlFor='first name'>First name</label>
               < input type='text' name='name' className={styles.inputField} onChange={(e) => { setFirstName(e.target.value) }} placeholder="your  first name" />
@@ -119,7 +119,7 @@ export default function Home() {
             </formGroup>
             < formGroup className={styles.inputGroup} >
               <label>Pièces jointes: </label>
-              <input type="file" name="file[]" multiple="multiple" onChange={(e) => {
+              <input type="file" name="file[]" multiple={true} onChange={(e) => {
                 console.log(e.target.files[0])
                 setFileName(e.target.files[0].name)
                 setFile(e.target.files[0])
