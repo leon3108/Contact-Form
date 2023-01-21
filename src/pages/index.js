@@ -6,18 +6,18 @@ import { useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-
-
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
-  const [filename, setFileName] = useState(null)
   const [file, setFile] = useState(null)
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = (e) => {
+
+    e.preventDefault()
+    console.log('Sending')
 
     if (firstName == '') {
       alert("empty first name")
@@ -44,42 +44,25 @@ export default function Home() {
       return
     }
 
-    e.preventDefault()
-    console.log("e.target.files = " + e.target.files)
-    console.log('Sending')
-    let data = {
-      firstName,
-      lastName,
-      email,
-      subject,
-      message,
-      filename,
-    }
+    var formData = new FormData();
 
-    const formData = new FormData();
+    formData.append('media', file);
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('subject', subject);
+    formData.append('message', message);
 
-		formData.append('File', file);
-
-    fetch('/api/contact', {
+    fetch('/api/upload', {
       method: 'POST',
       body: formData,
-      // headers: {
-      //   'Accept': 'application/json, text/plain, */*',
-      //   'Content-Type': 'application/json'
-      // },
-      // body: JSON.stringify(data) + formData 
+      headers: {
+        'Accept' : '',
+      },
     }).then((res) => {
       console.log('Response received')
-      if (res.status === 200) {
+      if (res.status === 200)
         console.log('Response succeeded!')
-        setSubmitted(true)
-        // setFirstName('')
-        // setLastName('')
-        // setEmail('')
-        // setSubject('')
-        // setMessage('')
-        // setFiles('')
-      }
     })
   }
 
@@ -95,37 +78,34 @@ export default function Home() {
         <div className={styles.container}>
 
           < form className={styles.contactForm} encType="multipart/form-data">
-            < formGroup className={styles.inputGroup} >
+            < div className={styles.inputGroup} >
               < label htmlFor='first name'>First name</label>
               < input type='text' name='name' className={styles.inputField} onChange={(e) => { setFirstName(e.target.value) }} placeholder="your  first name" />
-            </formGroup>
-            < formGroup className={styles.inputGroup} >
+            </div>
+            < div className={styles.inputGroup} >
               < label htmlFor='last name'>Last name</label>
               < input type='text' name='name' className={styles.inputField} onChange={(e) => { setLastName(e.target.value) }} placeholder="your last name" />
-            </formGroup>
-            < formGroup className={styles.inputGroup} >
+            </div>
+            < div className={styles.inputGroup} >
               < label htmlFor='email'>Email</label>
               < input type='email' name='email' className={styles.inputField} onChange={(e) => { setEmail(e.target.value) }} placeholder="your email" />
-            </formGroup>
-            < formGroup className={styles.inputGroup} >
+            </div>
+            < div className={styles.inputGroup} >
               < label htmlFor='message'>Subject</label>
               < input type='text' name='message' className={styles.inputField} onChange={(e) => { setSubject(e.target.value) }} placeholder="subject" />
-            </formGroup>
-            < formGroup className={styles.inputGroup} >
+            </div>
+            < div className={styles.inputGroup} >
               < label htmlFor='message'>Message</label>
               < input type='text' name='message' className={styles.inputField} onChange={(e) => { setMessage(e.target.value) }} placeholder="your message" />
-            </formGroup>
-            < formGroup className={styles.inputGroup} >
+            </div>
+            < div className={styles.inputGroup} >
               <label>Pièces jointes: </label>
               <input type="file" name="file[]" multiple={true} onChange={(e) => {
-                console.log(e.target.files[0])
-                setFileName(e.target.files[0].name)
                 setFile(e.target.files[0])
               }} />
-            </formGroup>
+            </div>
 
             < input type='submit' onClick={(e) => { handleSubmit(e) }} />
-            {filename == '' ? null : <img src={filename} alt="images" width={100 + 'px'} height={100 + 'px'}></img>}
           </form >
 
         </div>
