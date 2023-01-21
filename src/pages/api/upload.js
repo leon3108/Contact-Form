@@ -84,9 +84,16 @@ export default async function upload(req, res) {
   }
 
   transporter.sendMail(mailData, function (err, info) {
+    if (info) {
+      fs.unlink(file.filepath, (err) => {
+        if (err) throw err;
+        console.log('successfully deleted ' + file.filepath);
+      });
+    }
     if (err)
       console.log("err = " + err)
   })
+
 
   res.status(200);
   res.end()
