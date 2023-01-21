@@ -54,9 +54,16 @@ const parseForm = async (req) => {
 
 export default async function upload(req, res) {
   const { fields, files } = await parseForm(req);
-
   const file = files.media;
-  let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+  var attachment = [];
+
+  if (file != undefined) {
+    let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+    attachment = [{
+      filename: "image.png",
+      path: file.filepath,
+    }];
+  }
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -73,10 +80,7 @@ export default async function upload(req, res) {
     from: 'contactguillaumemail@gmail.com', //l'adresse qui expédiera le mail
     to: 'maxnoelsens@gmail.com', // à mon adresse pour le moment puis celle de guillaume
     text: `${fields.firstName} ${fields.lastName}, ${fields.email} \n\n${fields.subject} \n\n${fields.message}`,
-    attachments: [{
-      filename: "image.png",
-      path: file.filepath,
-    }]
+    attachments: attachment
   }
 
   transporter.sendMail(mailData, function (err, info) {
