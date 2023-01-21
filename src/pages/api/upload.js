@@ -60,7 +60,7 @@ export default async function upload(req, res) {
   if (file != undefined) {
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
     attachment = [{
-      filename: "image.png",
+      filename: file.filename,
       path: file.filepath,
     }];
   }

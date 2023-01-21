@@ -1,2 +1,4 @@
 Prendre seulement les fichiers : png, jpg et pdf
 supprimer le fichier une fois qu'il est envoyé par mail
+mettre le nom de l'image et pas juste image.png
+gerer plusieurs fichiers
