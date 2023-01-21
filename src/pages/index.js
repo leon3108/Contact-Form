@@ -100,7 +100,8 @@ export default function Home() {
             </div>
             < div className={styles.inputGroup} >
               <label>Pièces jointes: </label>
-              <input type="file" name="file[]" multiple={true} accept=".png, .gif, .jpeg, .pdf" onChange={(e) => {
+              {/* <input type="file" name="file[]" multiple={true} accept=".png, .gif, .jpeg, .pdf" onChange={(e) => { */}
+              <input type="file" name="file[]" accept=".png, .gif, .jpeg, .pdf" onChange={(e) => {
                 setFile(e.target.files[0])
               }} />
             </div>
