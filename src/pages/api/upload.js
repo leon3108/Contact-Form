@@ -1,7 +1,8 @@
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail');
 const fs = require('fs');
-import path, { join } from "path";
+import { join } from "path";
+var path = require("path");
 import formidable from "formidable";
 import mime from "mime";
 
@@ -38,17 +39,12 @@ const parseForm = async (req) => {
 export default async function upload(req, res) {
   const { fields, files } = await parseForm(req);
   const file = files.media;
-  var attachment = [];
-  
-    if (file != undefined) {
-    let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
-  }
-
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  let fileContent = fs.readFileSync(file.filepath).toString("base64")
-  // console.log(file)
-  // console.log(file.newFilename)
-  // console.log(fileContent);
+  const configDirectory = path.resolve(process.cwd(), "uploads/");
+  // let fileContent = fs.readFileSync(file.filepath).toString("base64")
+  const fileContent = fs.readFileSync(path.join(configDirectory, file.newFilename)).toString("base64")
+  // if (file != undefined) {
+  //   let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+  // }
   const msg = {
     from: 'contactguillaumemail@gmail.com',
     to: 'maxnoelsens@gmail.com',
@@ -56,12 +52,14 @@ export default async function upload(req, res) {
     text: `${fields.firstName} ${fields.lastName}, ${fields.email} \n\n${fields.subject} \n\n${fields.message}`,
     attachments: [
       {
-        filename: `${file.newFilename}`,
+        filename: file.newFilename,
         content: fileContent,
         disposition: "attachment"
       }
     ]
   };
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
   // sgMail.send(msg)
   // .then(() => {
   //   console.log("email sent");
@@ -86,23 +84,23 @@ export default async function upload(req, res) {
 //   return await new Promise(async (resolve, reject) => {
 //     const uploadDir = `../../../uploads/`;
 
-    // try {
-    //   await stat(uploadDir);
-    // } catch (e) {
-    //   if (e.code === "ENOENT") {
-    //     console.log("uploadDir not exist")
-    //     await mkdir(uploadDir, { recursive: true })
-    //     .then(function () {
-    //       console.log("Promise Resolved");
-    //     }).catch(function () {
-    //       console.log("Promise Rejected");
-    //     })
-    //   } else {
-    //     console.error("mon erreur = " + e);
-    //     reject(e);
-    //     return;
-    //   }
-    // }
+//     try {
+//       await stat(uploadDir);
+//     } catch (e) {
+//       if (e.code === "ENOENT") {
+//         console.log("uploadDir not exist")
+//         await mkdir(uploadDir, { recursive: true })
+//         .then(function () {
+//           console.log("Promise Resolved");
+//         }).catch(function () {
+//           console.log("Promise Rejected");
+//         })
+//       } else {
+//         console.error("mon erreur = " + e);
+//         reject(e);
+//         return;
+//       }
+//     }
 
 //     const form = formidable({
 //       maxFiles: 10,
