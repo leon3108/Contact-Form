@@ -13,7 +13,8 @@ const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
-      `/uploads/${dateFn.format(Date.now(), "dd-MM-Y")}`
+      `/uploads/`
+      // `/uploads/${dateFn.format(Date.now(), "dd-MM-Y")}`
     );
 
     try {
