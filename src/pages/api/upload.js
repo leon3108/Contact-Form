@@ -14,20 +14,19 @@ const parseForm = async (req) => {
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
       `/uploads/`
-      // `/uploads/${dateFn.format(Date.now(), "dd-MM-Y")}`
     );
 
-    // try {
-    //   await stat(uploadDir);
-    // } catch (e) {
-    //   if (e.code === "ENOENT") {
-    //     await mkdir(uploadDir, { recursive: true });
-    //   } else {
-    //     console.error(e);
-    //     reject(e);
-    //     return;
-    //   }
-    // }
+    try {
+      await stat(uploadDir);
+    } catch (e) {
+      if (e.code === "ENOENT") {
+        await mkdir(uploadDir, { recursive: true });
+      } else {
+        console.error(e);
+        reject(e);
+        return;
+      }
+    }
 
     const form = formidable({
       maxFiles: 10,
@@ -67,14 +66,14 @@ export default async function upload(req, res) {
   }
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
-    port: 587,
     host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    service: "gmail",
     auth: {
       user: 'contactguillaumemail@gmail.com',
       pass: PASSWORD,
     },
-    secure: false,
   });
 
   const mailData = {
@@ -84,7 +83,7 @@ export default async function upload(req, res) {
     attachments: attachment
   }
 
-  await new Promise((resolve, reject) => {
+  // await new Promise((resolve, reject) => {
     transporter.sendMail(mailData, function (err, info) {
       if (info) {
         fs.unlink(file.filepath, (err) => {
@@ -95,7 +94,7 @@ export default async function upload(req, res) {
       if (err)
         console.log("err = " + err)
     })
-  })
+  // })
 
 
 res.status(200);
