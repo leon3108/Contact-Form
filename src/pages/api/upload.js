@@ -13,7 +13,7 @@ const parseForm = async (req) => {
 
 
     try {
-      await stat(uploadDir);
+      stat(uploadDir);
     } catch (e) {
       if (e.code === "ENOENT") {
         console.log("uploadDir not exist")
