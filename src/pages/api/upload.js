@@ -1,6 +1,6 @@
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail');
-import { readFileSync, stat, mkdir } from 'fs';
+import { readFileSync, existsSync, mkdirSync } from 'fs';
 // const fs = require('fs');
 import { join, path, resolve } from "path";
 import formidable from "formidable";
@@ -12,23 +12,28 @@ const parseForm = async (req) => {
     const uploadDir = join(process.cwd(), `/uploads/`);
 
 
-    try {
-      stat(uploadDir);
-    } catch (e) {
-      if (e.code === "ENOENT") {
-        console.log("uploadDir not exist")
-        await mkdir(uploadDir, { recursive: true })
-        .then(function () {
-          console.log("Promise Resolved");
-        }).catch(function () {
-          console.log("Promise Rejected");
-        })
-      } else {
-        console.error("mon erreur = " + e);
-        reject(e);
-        return;
-      }
-    }
+    if (!existsSync(uploadDir))
+      mkdirSync(uploadDir);
+
+
+    // try {
+      
+    //   stat(uploadDir);
+    // } catch (e) {
+    //   if (e.code === "ENOENT") {
+    //     console.log("uploadDir not exist")
+    //     await mkdir(uploadDir, { recursive: true })
+    //     .then(function () {
+    //       console.log("Promise Resolved");
+    //     }).catch(function () {
+    //       console.log("Promise Rejected");
+    //     })
+    //   } else {
+    //     console.error("mon erreur = " + e);
+    //     reject(e);
+    //     return;
+    //   }
+    // }
 
 
 
