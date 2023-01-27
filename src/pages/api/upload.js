@@ -8,10 +8,7 @@ import mime from "mime";
 
 const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
-    const uploadDir = join(
-    process.env.ROOT_DIR || process.cwd(),
-    `/uploads/`
-  );
+    const uploadDir = join(process.cwd(), `/uploads/`);
 
     const form = formidable({
       maxFiles: 10,
@@ -46,12 +43,12 @@ export default async function upload(req, res) {
     if (file != undefined) {
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
   }
-  
+
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   let fileContent = fs.readFileSync(file.filepath).toString("base64")
-  console.log(file)
-  console.log(file.newFilename)
-  console.log(fileContent);
+  // console.log(file)
+  // console.log(file.newFilename)
+  // console.log(fileContent);
   const msg = {
     from: 'contactguillaumemail@gmail.com',
     to: 'maxnoelsens@gmail.com',
@@ -65,13 +62,13 @@ export default async function upload(req, res) {
       }
     ]
   };
-  sgMail.send(msg)
-  .then(() => {
-    console.log("email sent");
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  // sgMail.send(msg)
+  // .then(() => {
+  //   console.log("email sent");
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
 
   res.status(200);
   res.end()
