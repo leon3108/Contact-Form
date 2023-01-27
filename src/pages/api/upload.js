@@ -74,7 +74,7 @@ export default async function upload(req, res) {
       user: 'contactguillaumemail@gmail.com',
       pass: PASSWORD,
     },
-    secure: true, //false,
+    secure: false,
   });
 
   const mailData = {
