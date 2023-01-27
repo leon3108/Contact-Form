@@ -84,20 +84,22 @@ export default async function upload(req, res) {
     attachments: attachment
   }
 
-  transporter.sendMail(mailData, function (err, info) {
-    if (info) {
-      fs.unlink(file.filepath, (err) => {
-        if (err) throw err;
-        console.log('successfully deleted ' + file.filepath);
-      });
-    }
-    if (err)
-      console.log("err = " + err)
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailData, function (err, info) {
+      if (info) {
+        fs.unlink(file.filepath, (err) => {
+          if (err) throw err;
+          console.log('successfully deleted ' + file.filepath);
+        });
+      }
+      if (err)
+        console.log("err = " + err)
+    })
   })
 
 
-  res.status(200);
-  res.end()
+res.status(200);
+res.end()
 
 }
 
