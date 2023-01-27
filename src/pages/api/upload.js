@@ -11,23 +11,19 @@ const PASSWORD = process.env.password
 
 const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
-    const uploadDir = join(
-      process.env.ROOT_DIR || process.cwd(),
-      `/uploads/`
-    );
+    const uploadDir = `../../../uploads/`;
 
     try {
       await stat(uploadDir);
     } catch (e) {
       if (e.code === "ENOENT") {
-        console.log("upload dir not existent")
+        console.log("uploadDir not exist")
         await mkdir(uploadDir, { recursive: true })
         .then(function () {
           console.log("Promise Resolved");
         }).catch(function () {
           console.log("Promise Rejected");
         })
-        console.log("upload dir should now exist")
       } else {
         console.error("mon erreur = " + e);
         reject(e);
