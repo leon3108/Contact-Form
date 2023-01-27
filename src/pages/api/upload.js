@@ -10,7 +10,11 @@ import mime from "mime";
 const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
     const uploadDir = join(process.cwd(), `/uploads/`);
+    const file = join(process.cwd(), 'uploads', 'media-1674832059415-672801157.png');
+    const stringified = readFileSync(file, 'utf8');
 
+    console.log(stringified);
+    console.log(uploadDir);
 
     console.log("try if dir exist");
     if (!existsSync(uploadDir)) {
