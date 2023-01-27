@@ -22,6 +22,7 @@ const parseForm = async (req) => {
       if (e.code === "ENOENT") {
         console.log("upload dir not existent")
         await mkdir(uploadDir, { recursive: true });
+        console.log("upload dir should now exist")
       } else {
         console.error("mon erreur = " + e);
         reject(e);
