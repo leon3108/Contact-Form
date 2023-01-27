@@ -41,6 +41,7 @@ export default async function upload(req, res) {
   const file = files.media;
   const configDirectory = resolve(process.cwd(), "uploads/");
   // let fileContent = fs.readFileSync(file.filepath).toString("base64")
+  console.log("join = " + join(configDirectory, file.newFilename))
   const fileContent = readFileSync(join(configDirectory, file.newFilename), 'utf8').toString("base64")
   // if (file != undefined) {
   //   let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
