@@ -12,8 +12,12 @@ const parseForm = async (req) => {
     const uploadDir = join(process.cwd(), `/uploads/`);
 
 
-    if (!existsSync(uploadDir))
+    console.log("try if dir exist");
+    if (!existsSync(uploadDir)) {
+      console.log("dir doesn't exit");
       mkdirSync(uploadDir);
+    }
+    console.log("dir exist now");
 
 
     // try {
