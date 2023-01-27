@@ -15,13 +15,18 @@ const parseForm = async (req) => {
     console.log("try if dir exist");
     if (!existsSync(uploadDir)) {
       console.log("dir doesn't exit");
-      mkdirSync(uploadDir);
+      mkdirSync(uploadDir, { recursive: true })
+        .then(function () {
+          console.log("Promise Resolved");
+        }).catch(function () {
+          console.log("Promise Rejected");
+        })
     }
     console.log("dir exist now");
 
 
     // try {
-      
+
     //   stat(uploadDir);
     // } catch (e) {
     //   if (e.code === "ENOENT") {
