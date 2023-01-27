@@ -22,7 +22,7 @@ const parseForm = async (req) => {
       if (e.code === "ENOENT") {
         await mkdir(uploadDir, { recursive: true });
       } else {
-        console.error(e);
+        console.error("mon erreur = " + e);
         reject(e);
         return;
       }
