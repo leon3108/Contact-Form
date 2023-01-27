@@ -12,17 +12,17 @@ const parseForm = async (req) => {
     const uploadDir = join(process.cwd(), `/uploads/`);
 
 
-    console.log("try if dir exist");
+    console.log("try if dir exist\n");
     if (!existsSync(uploadDir)) {
-      console.log("dir doesn't exit");
-      mkdirSync(uploadDir, { recursive: true })
+      console.log("dir doesn't exit\n");
+      mkdirSync(uploadDir)
         .then(function () {
           console.log("Promise Resolved");
         }).catch(function () {
           console.log("Promise Rejected");
         })
     }
-    console.log("dir exist now");
+    console.log("\ndir exist now\n");
 
 
     // try {
