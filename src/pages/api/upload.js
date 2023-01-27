@@ -1,6 +1,6 @@
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail');
-import { readFileSync } from 'fs';
+import { readFileSync, stat, mkdir } from 'fs';
 // const fs = require('fs');
 import { join, path, resolve } from "path";
 import formidable from "formidable";
