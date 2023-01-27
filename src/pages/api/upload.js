@@ -11,6 +11,28 @@ const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
     const uploadDir = join(process.cwd(), `/uploads/`);
 
+
+    try {
+      await stat(uploadDir);
+    } catch (e) {
+      if (e.code === "ENOENT") {
+        console.log("uploadDir not exist")
+        await mkdir(uploadDir, { recursive: true })
+        .then(function () {
+          console.log("Promise Resolved");
+        }).catch(function () {
+          console.log("Promise Rejected");
+        })
+      } else {
+        console.error("mon erreur = " + e);
+        reject(e);
+        return;
+      }
+    }
+
+
+
+
     const form = formidable({
       maxFiles: 10,
       maxFileSize: 1024 * 1024 * 10, // 10mb
