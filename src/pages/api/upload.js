@@ -17,17 +17,17 @@ const parseForm = async (req) => {
       // `/uploads/${dateFn.format(Date.now(), "dd-MM-Y")}`
     );
 
-    try {
-      await stat(uploadDir);
-    } catch (e) {
-      if (e.code === "ENOENT") {
-        await mkdir(uploadDir, { recursive: true });
-      } else {
-        console.error(e);
-        reject(e);
-        return;
-      }
-    }
+    // try {
+    //   await stat(uploadDir);
+    // } catch (e) {
+    //   if (e.code === "ENOENT") {
+    //     await mkdir(uploadDir, { recursive: true });
+    //   } else {
+    //     console.error(e);
+    //     reject(e);
+    //     return;
+    //   }
+    // }
 
     const form = formidable({
       maxFiles: 10,
