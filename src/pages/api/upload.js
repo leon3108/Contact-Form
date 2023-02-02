@@ -36,7 +36,7 @@ const parseForm = async (req) => {
 
 
 export default async function upload(req, res) {
-  var tmp = readdirSync('./');
+  var tmp = readdirSync('./uploads/');
   console.log(tmp);
 
   const { fields, files } = await parseForm(req);
@@ -44,7 +44,11 @@ export default async function upload(req, res) {
   const uploadDir = join(process.cwd(), `uploads/`);
   console.log("join(uploadDir, file.newFilename) = " + join(uploadDir, file.newFilename))
   console.log("uploadDir = " + uploadDir)
+  var tmp = readdirSync('./uploads/');
+  console.log(tmp);
   const fileContent = readFileSync(join(uploadDir, file.newFilename)).toString("base64")
+  var tmp = readdirSync('./uploads/');
+  console.log(tmp);
   const msg = {
     from: 'contactguillaumemail@gmail.com',
     to: 'maxnoelsens@gmail.com',
