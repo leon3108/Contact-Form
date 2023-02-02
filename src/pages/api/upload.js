@@ -39,10 +39,7 @@ export default async function upload(req, res) {
 
   const file = formParsed.files.media;
 
-  const fileContent = fs
-    .readFileSync(join(UPLOAD_DIR, file.newFilename), (err) => {
-      console.log("readfile = ", err);
-    })
+  const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
 
   fs.writeFileSync(
     UPLOAD_DIR + file.newFilename,
@@ -52,7 +49,7 @@ export default async function upload(req, res) {
     }
   );
 
-  // sendMail(formParsed.fields, fileContent, file.newFilename);
+  sendMail(formParsed.fields, fileContent.toString("base64"), file.newFilename);
 
   res.status(200);
   res.end();
