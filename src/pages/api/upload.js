@@ -4,7 +4,7 @@ import { readFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { join, path, resolve } from "path";
 import formidable from "formidable";
 import mime from "mime";
-
+import mv from 'mv';
 
 const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
@@ -36,19 +36,26 @@ const parseForm = async (req) => {
 
 
 export default async function upload(req, res) {
-  var tmp = readdirSync('./uploads/');
-  console.log(tmp);
-
   const { fields, files } = await parseForm(req);
   const file = files.media;
   const uploadDir = join(process.cwd(), `uploads/`);
   console.log("join(uploadDir, file.newFilename) = " + join(uploadDir, file.newFilename))
   console.log("uploadDir = " + uploadDir)
+  
   var tmp = readdirSync('./uploads/');
   console.log(tmp);
-  const fileContent = readFileSync(join(uploadDir, file.newFilename)).toString("base64")
-  var tmp = readdirSync('./uploads/');
+
+  // mv("")
+
+  tmp = readdirSync('./uploads/');
   console.log(tmp);
+  
+  // const fileContent = readFileSync(join(uploadDir, file.newFilename)).toString("base64")
+  const fileContent = readFileSync(join(uploadDir, "media-1675329533874-903875653.png")).toString("base64")
+  
+  tmp = readdirSync('./uploads/');
+  console.log(tmp);
+  
   const msg = {
     from: 'contactguillaumemail@gmail.com',
     to: 'maxnoelsens@gmail.com',
