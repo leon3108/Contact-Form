@@ -40,11 +40,13 @@ export default async function upload(req, res) {
   const file = formParsed.files.media;
 
   // console.log('FILE', file)
+  logUploadedFiles();
 
   const fileContent = fs
     .readFileSync(join(UPLOAD_DIR, file.newFilename))
     .toString("base64");
 
+  logUploadedFiles();
   sendMail(formParsed.fields, fileContent, file.newFilename);
 
   res.status(200);
