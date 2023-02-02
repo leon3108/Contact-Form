@@ -8,6 +8,14 @@ import mv from 'mv';
 
 const parseForm = async (req) => {
   return await new Promise(async (resolve, reject) => {
+
+    oldpath = files.filemon.path;
+    newpath = "/uploads/" + files.filemon.path
+
+    mv(oldpath, newpath, function(err) {
+      console.log(err);
+    });
+
     const uploadDir = join(process.cwd(), `uploads/`);
 
     const form = formidable({
@@ -45,8 +53,6 @@ export default async function upload(req, res) {
   var tmp = readdirSync('./uploads/');
   console.log(tmp);
 
-  // mv("")
-
   tmp = readdirSync('./uploads/');
   console.log(tmp);
   
@@ -71,16 +77,14 @@ export default async function upload(req, res) {
   };
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  console.log("ok")
-  sgMail.send(msg)
-  .then(() => {
-    console.log("email sent");
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  // sgMail.send(msg)
+  // .then(() => {
+  //   console.log("email sent");
+  // })
+  // .catch(err => {
+  //   console.log("err" + err);
+  // });
   
-  console.log("ok")
   res.status(200);
   res.end()
 }
