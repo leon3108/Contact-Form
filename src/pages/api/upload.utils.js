@@ -6,7 +6,7 @@ import { join } from "path";
 
 export const MAX_FILES = 10
 export const MAX_FILE_SIZE = 1024 * 1024 * 10 // 10mb
-export const UPLOAD_DIR = join(process.cwd(), `uploads/`)
+export const UPLOAD_DIR = join(process.cwd(), `tmp/`)
 
 const generateUniqueSuffix = () => `${Date.now()}-${Math.round(Math.random() * 1e9)}`
 
