@@ -39,7 +39,7 @@ export default async function upload(req, res) {
 
   const file = formParsed.files.media;
 
-  console.log('FILE', file)
+  // console.log('FILE', file)
 
   const fileContent = fs
     .readFileSync(join(UPLOAD_DIR, file.newFilename))

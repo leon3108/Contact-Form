@@ -19,7 +19,7 @@ export const logUploadedFiles = () => {
 }
 
 export function sendMail(fields, content, filename) {
-  console.log("FILENAME", filename);
+//   console.log("FILENAME", filename);
   const msg = {
     from: "contactguillaumemail@gmail.com",
     to: "maxnoelsens@gmail.com",
