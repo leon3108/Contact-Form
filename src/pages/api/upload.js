@@ -38,12 +38,12 @@ export default async function upload(req, res) {
   const formParsed = await parseForm(req);
 
   const file = formParsed.files.media;
-  
+
   const fileContent = fs
-    .readFileSync(join(UPLOAD_DIR, file.newFilename))
+    .readFile(join(UPLOAD_DIR, file.newFilename))
     .toString("base64");
 
-  fs.writeFileSync(
+  fs.writeFile(
     UPLOAD_DIR + file.newFilename,
     Buffer.from(fileContent),
     (err) => {
