@@ -3,23 +3,25 @@ const sgMail = require("@sendgrid/mail");
 import fs from "fs";
 import { join } from "path";
 
+export const MAX_FILES = 10;
+export const MAX_FILE_SIZE = 1024 * 1024 * 10; // 10mb
+export const UPLOAD_DIR = join(process.cwd(), `tmp/`);
 
-export const MAX_FILES = 10
-export const MAX_FILE_SIZE = 1024 * 1024 * 10 // 10mb
-export const UPLOAD_DIR = join(process.cwd(), `tmp/`)
+const generateUniqueSuffix = () =>
+  `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 
-const generateUniqueSuffix = () => `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-
-export const generateFileName = (part) => `${part.name || "unknown"}-${generateUniqueSuffix()}.${
-  mime.getExtension(part.mimetype || "") || "unknown"
-}`
+export const generateFileName = (part) =>
+  `${part.name || "unknown"}-${generateUniqueSuffix()}.${
+    mime.getExtension(part.mimetype || "") || "unknown"
+  }`;
 
 export const logUploadedFiles = () => {
-  console.log(fs.readdirSync(UPLOAD_DIR))
-}
+  console.log("(logUploadedFiles) UPLOAD_DIR = ", UPLOAD_DIR);
+  console.log(fs.readdirSync(UPLOAD_DIR));
+};
 
 export function sendMail(fields, content, filename) {
-//   console.log("FILENAME", filename);
+  //   console.log("FILENAME", filename);
   const msg = {
     from: "contactguillaumemail@gmail.com",
     to: "maxnoelsens@gmail.com",

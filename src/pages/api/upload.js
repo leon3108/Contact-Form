@@ -43,7 +43,8 @@ export default async function upload(req, res) {
   
   // fs.writeFileSync(UPLOAD_DIR + file.newFilename, Buffer.from(fileContent));
   
-  console.log(join(UPLOAD_DIR, file.newFilename));
+  console.log("UPLOAD_DIR =", UPLOAD_DIR);
+  console.log("filename =", file.newFilename);
   logUploadedFiles();
 
   const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
