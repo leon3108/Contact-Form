@@ -1,6 +1,6 @@
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail');
-import { readFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { join, path, resolve } from "path";
 import formidable from "formidable";
 import mime from "mime";
@@ -36,6 +36,9 @@ const parseForm = async (req) => {
 
 
 export default async function upload(req, res) {
+  var tmp = readdirSync('./');
+  console.log(tmp);
+
   const { fields, files } = await parseForm(req);
   const file = files.media;
   const uploadDir = join(process.cwd(), `uploads/`);
