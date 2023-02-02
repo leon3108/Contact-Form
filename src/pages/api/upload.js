@@ -71,13 +71,13 @@ export default async function upload(req, res) {
   };
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  // sgMail.send(msg)
-  // .then(() => {
-  //   console.log("email sent");
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  // });
+  sgMail.send(msg)
+  .then(() => {
+    console.log("email sent");
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
   res.status(200);
   res.end()
