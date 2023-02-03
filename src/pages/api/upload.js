@@ -16,7 +16,9 @@ const saveFile = async (file) => {
   console.log(file.filepath);
   console.log(file.newFilename);
   const data = fs.readFileSync(file.filepath);
+  console.log("11");
   fs.writeFileSync(`./tmp/${file.newFilename}`, data);
+  console.log("22");
   // await fs.unlinkSync(file.filepath);
   return;
 };
