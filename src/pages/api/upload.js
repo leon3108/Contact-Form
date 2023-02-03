@@ -37,24 +37,24 @@ const parseForm = (req) => {
 export default async function upload(req, res) {
   const formParsed = await parseForm(req);
 
-  const file = formParsed.files.media;
+  setTimeout(() => {
+    const file = formParsed.files.media;
 
-  console.log(file);
-  
-  // fs.writeFileSync(UPLOAD_DIR + file.newFilename, Buffer.from(fileContent));
-  
-  console.log("UPLOAD_DIR =", UPLOAD_DIR);
-  console.log("filename =", file.newFilename);
-  logUploadedFiles();
+    // fs.writeFileSync(UPLOAD_DIR + file.newFilename, Buffer.from(fileContent));
 
-  const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
+    console.log("UPLOAD_DIR =", UPLOAD_DIR);
+    console.log("filename =", file.newFilename);
+    logUploadedFiles();
 
-  console.log(fileContent);
+    const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
 
-  // sendMail(formParsed.fields, fileContent, file.newFilename);
+    console.log(fileContent);
 
-  res.status(200);
-  res.end();
+    // sendMail(formParsed.fields, fileContent, file.newFilename);
+
+    res.status(200);
+    res.end();
+  }, 5000);
 }
 
 export const config = {
