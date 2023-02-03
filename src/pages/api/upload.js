@@ -1,7 +1,7 @@
 require("dotenv").config();
 import formidable from "formidable";
 import fs from "fs";
-import { join } from "path";
+import { join, resolve } from "path";
 import {
   MAX_FILES,
   MAX_FILE_SIZE,
@@ -15,7 +15,10 @@ import {
 const saveFile = async (file) => {
   console.log(file.filepath);
   console.log(file.newFilename);
-  const data = fs.readFileSync(file.filepath);
+  const data = fs.readFileSync(file.filepath, function(err) {
+    if (err) reject (err)
+    else console.log("ok");
+  });
   console.log("11");
   fs.writeFileSync(`./tmp/${file.newFilename}`, data);
   console.log("22");
