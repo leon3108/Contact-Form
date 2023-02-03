@@ -11,14 +11,17 @@ import {
   sendMail,
 } from "./upload.utils";
 
-
 const saveFile = async (file) => {
   console.log(file.filepath);
   console.log(file.newFilename);
-  const data = fs.readFileSync(file.filepath, function(err) {
-    if (err) reject (err)
-    else console.log("ok");
-  });
+  const data = fs
+    .readFileSync(file.filepath)
+    .then(function () {
+      console.log("then");
+    })
+    .catch(function () {
+      console.log("catch");
+    });
   console.log("11");
   fs.writeFileSync(`./tmp/${file.newFilename}`, data);
   console.log("22");
