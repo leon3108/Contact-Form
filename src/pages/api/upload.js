@@ -11,7 +11,17 @@ import {
   sendMail,
 } from "./upload.utils";
 
-const parseForm = (req) => {
+
+const saveFile = async (file) => {
+  console.log(file.filepath);
+  console.log(file.newFilename);
+  const data = fs.readFileSync(file.filepath);
+  fs.writeFileSync(`./tmp/${file.newFilename}`, data);
+  // await fs.unlinkSync(file.filepath);
+  return;
+};
+
+const parseForm = async (req) => {
   return new Promise((resolve, reject) => {
     const form = formidable({
       maxFiles: MAX_FILES,
@@ -27,9 +37,12 @@ const parseForm = (req) => {
       },
     });
 
-    return form.parse(req, function (err, fields, files) {
+    return form.parse(req, async function (err, fields, files) {
       if (err) reject(err);
-      else resolve({ fields, files });
+      else {
+        await saveFile(files.media);
+        resolve({ fields, files });
+      }
     });
   });
 };
@@ -37,24 +50,22 @@ const parseForm = (req) => {
 export default async function upload(req, res) {
   const formParsed = await parseForm(req);
 
-  setTimeout(() => {
-    const file = formParsed.files.media;
+  const file = formParsed.files.media;
 
-    // fs.writeFileSync(UPLOAD_DIR + file.newFilename, Buffer.from(fileContent));
+  // fs.writeFileSync(UPLOAD_DIR + file.newFilename, Buffer.from(fileContent));
 
-    console.log("UPLOAD_DIR =", UPLOAD_DIR);
-    console.log("filename =", file.newFilename);
-    logUploadedFiles();
+  console.log("UPLOAD_DIR =", UPLOAD_DIR);
+  console.log("filename =", file.newFilename);
+  logUploadedFiles();
 
-    const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
+  const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
 
-    console.log(fileContent);
+  console.log(fileContent);
 
-    // sendMail(formParsed.fields, fileContent, file.newFilename);
+  // sendMail(formParsed.fields, fileContent, file.newFilename);
 
-    res.status(200);
-    res.end();
-  }, 5000);
+  res.status(200);
+  res.end();
 }
 
 export const config = {
