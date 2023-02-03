@@ -11,24 +11,6 @@ import {
   sendMail,
 } from "./upload.utils";
 
-const saveFile = async (file) => {
-  console.log(file.filepath);
-  console.log(file.newFilename);
-  const data = fs
-    .readFileSync(file.filepath)
-    .then(function () {
-      console.log("then");
-    })
-    .catch(function () {
-      console.log("catch");
-    });
-  console.log("11");
-  fs.writeFileSync(`./tmp/${file.newFilename}`, data);
-  console.log("22");
-  // await fs.unlinkSync(file.filepath);
-  return;
-};
-
 const parseForm = async (req) => {
   return new Promise((resolve, reject) => {
     const form = formidable({
@@ -47,10 +29,7 @@ const parseForm = async (req) => {
 
     return form.parse(req, async function (err, fields, files) {
       if (err) reject(err);
-      else {
-        await saveFile(files.media);
-        resolve({ fields, files });
-      }
+      else resolve({ fields, files });
     });
   });
 };
@@ -61,10 +40,6 @@ export default async function upload(req, res) {
   const file = formParsed.files.media;
 
   // fs.writeFileSync(UPLOAD_DIR + file.newFilename, Buffer.from(fileContent));
-
-  console.log("UPLOAD_DIR =", UPLOAD_DIR);
-  console.log("filename =", file.newFilename);
-  logUploadedFiles();
 
   const fileContent = fs.readFileSync(join(UPLOAD_DIR, file.newFilename));
 
